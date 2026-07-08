@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function esAdminDelComercio(slug) {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/comercios/$(slug)/admins/$(request.auth.uid));
+    }
+
+    function esSuperAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/superAdmins/$(request.auth.uid));
+    }
+
+    match /comercios/{slug} {
+      // Lectura pública solo si está publicado. El admin del comercio y el
+      // super admin pueden leerlo aunque siga en onboarding (activo: false).
+      allow read: if resource.data.activo == true || esAdminDelComercio(slug) || esSuperAdmin();
+      allow update: if esAdminDelComercio(slug) || esSuperAdmin();
+      allow create, delete: if esSuperAdmin();
+
+      match /categorias/{categoriaId} {
+        allow read: if true;
+        allow write: if esAdminDelComercio(slug);
+      }
+
+      match /productos/{productoId} {
+        allow read: if true;
+        allow write: if esAdminDelComercio(slug);
+      }
+
+      match /pedidos/{pedidoId} {
+        // Los pedidos se crean únicamente server-side (Server Action con
+        // Admin SDK) que recalcula los totales: el cliente nunca escribe acá.
+        allow create: if false;
+        allow read, update: if esAdminDelComercio(slug);
+        allow delete: if false;
+      }
+
+      match /presupuestos/{presupuestoId} {
+        allow read, write: if esAdminDelComercio(slug);
+      }
+
+      match /admins/{uid} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        // Alta de admins siempre server-side, nunca desde el cliente.
+        allow write: if false;
+      }
+    }
+  }
+}

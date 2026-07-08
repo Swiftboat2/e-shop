@@ -1,0 +1,19 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function esAdminDelComercio(slug) {
+      return request.auth != null &&
+        firestore.exists(/databases/(default)/documents/comercios/$(slug)/admins/$(request.auth.uid));
+    }
+
+    // Imágenes públicas de cada comercio (logo, fotos de productos).
+    match /comercios/{slug}/{resto=**} {
+      allow read: if true;
+      allow create, update: if esAdminDelComercio(slug)
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if esAdminDelComercio(slug);
+    }
+  }
+}

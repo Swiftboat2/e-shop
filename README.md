@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Plataforma de catálogos multi-tenant con pedidos por WhatsApp
 
-## Getting Started
+Cada comercio tiene su tienda en un subdominio propio (`{comercio}.midominio.com`), donde el cliente final arma un carrito y confirma el pedido vía WhatsApp. El dominio raíz sirve la landing de la plataforma.
 
-First, run the development server:
+Stack: Next.js 16 (App Router) · TypeScript estricto · Tailwind CSS 4 · Firebase (Firestore, Auth, Storage) · Vitest.
+
+## Desarrollo
+
+Requisitos: Node 20+, Java 11+ (para los emuladores de Firebase).
 
 ```bash
+# Terminal 1: emuladores de Firebase (Firestore, Auth, Storage + UI en :4000)
+npm run emulators          # primera vez: npm run emulators:fresh
+
+# Terminal 2: servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Una única vez, con los emuladores arriba: carga el tenant de demo
+npm run seed:demo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Los datos de los emuladores persisten entre corridas en `./emulator-data` (se exportan al apagarlos). Si se pierden, `npm run seed:demo` los regenera en segundos.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+En desarrollo **todo corre contra los emuladores por defecto**, sin credenciales ni archivo `.env` (el proyecto `demo-eshop` es 100% offline). Para desactivar ese comportamiento: `NEXT_PUBLIC_FIREBASE_EMULATORS=0`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Subdominios en local
 
-## Learn More
+Los navegadores resuelven `*.localhost` solos, sin tocar `/etc/hosts`:
 
-To learn more about Next.js, take a look at the following resources:
+- Landing: <http://localhost:3000>
+- Tienda de un comercio: <http://demo.localhost:3000>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tests
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm test              # una corrida
+npm run test:watch    # modo watch
+npm run test:coverage # cobertura (umbral 80% sobre src/core)
+```
 
-## Deploy on Vercel
+## Estructura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+├── proxy.ts          # ruteo por subdominio: Host → rewrite a /s/{slug}
+├── app/
+│   ├── (landing)/    # dominio raíz
+│   └── s/[slug]/     # tienda de cada tenant (destino interno del rewrite)
+├── core/
+│   ├── dominio/      # lógica pura de negocio (horarios, descuentos, WhatsApp)
+│   ├── firebase/     # inicialización client SDK + Admin SDK
+│   └── types/        # modelo de datos (Comercio, Producto, Pedido, ...)
+└── features/         # UI y lógica por feature
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy (Vercel + Firebase real)
+
+1. **Firebase**: crear el proyecto real (Firestore, Auth email/password, Storage) y desplegar las reglas: `npx firebase deploy --only firestore:rules,storage --project <id-real>`.
+2. **Vercel**: importar el repo. Cargar las variables de entorno de la tabla de abajo.
+3. **Dominio wildcard**: en Vercel, agregar los dominios `midominio.com` y `*.midominio.com` al proyecto, y delegar los nameservers del dominio a Vercel (requisito para el SSL wildcard automático).
+4. **Alta de comercios en producción**: `FIREBASE_SERVICE_ACCOUNT='<json>' NEXT_PUBLIC_FIREBASE_PROJECT_ID=<id> npm run crear-comercio -- <slug> "<nombre>" <whatsapp> <email>`.
+5. **Tenant demo**: cargarlo apuntando el flujo de WhatsApp a un número de testing propio (ver `scripts/seed-demo.mjs` como referencia de datos).
+
+## Variables de entorno (producción)
+
+En desarrollo no hace falta ninguna. Para producción (Vercel):
+
+| Variable | Descripción |
+| --- | --- |
+| `NEXT_PUBLIC_ROOT_DOMAIN` | Dominio raíz sin protocolo, ej. `midominio.com` |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Config web del proyecto real de Firebase |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ídem |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ídem |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ídem |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | ídem |
+| `FIREBASE_SERVICE_ACCOUNT` | JSON del service account (Admin SDK) en una sola línea |
