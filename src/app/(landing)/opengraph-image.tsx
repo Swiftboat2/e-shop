@@ -16,19 +16,19 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          background: "linear-gradient(135deg, #064e3b 0%, #0f766e 100%)",
-          color: "white",
+          background: "#F5F3EF",
+          color: "#1C1B19",
         }}
       >
-        <div style={{ fontSize: 84, fontWeight: 800 }}>{NOMBRE_PLATAFORMA}</div>
-        <div style={{ fontSize: 36, marginTop: 24, maxWidth: 900, lineHeight: 1.35, opacity: 0.92 }}>
+        <div style={{ fontSize: 84, fontWeight: 800, color: "#2D5F4C" }}>{NOMBRE_PLATAFORMA}</div>
+        <div style={{ fontSize: 36, marginTop: 24, maxWidth: 900, lineHeight: 1.35, opacity: 0.85 }}>
           {DESCRIPCION_PLATAFORMA}
         </div>
         <div
           style={{
             marginTop: 48,
             fontSize: 28,
-            background: "rgba(255,255,255,0.15)",
+            background: "#E8E4DC",
             padding: "12px 28px",
             borderRadius: 999,
             alignSelf: "flex-start",

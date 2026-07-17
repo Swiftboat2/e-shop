@@ -1,6 +1,6 @@
 // Identidad de la plataforma (no de ningún tenant). El nombre es un
 // placeholder: cambiarlo acá lo cambia en toda la landing y el OG image.
-export const NOMBRE_PLATAFORMA = "Pedime";
+export const NOMBRE_PLATAFORMA = "Vidriera";
 
 export const DESCRIPCION_PLATAFORMA =
   "Tu catálogo online con tu marca, en tu propia dirección web, donde tus clientes arman el pedido y te lo mandan por WhatsApp.";

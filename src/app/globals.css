@@ -24,3 +24,46 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Efecto vidriera del hero de la landing: un panel de vidrio que al cargar se
+   "empaña y aclara", revelando el catálogo detrás. Es el único uso de
+   backdrop-blur decorativo del sitio; el estado final conserva un blur leve
+   para que el catálogo se vea "a través del vidrio". */
+.vidrio-panel {
+  background-color: color-mix(in srgb, #e8e4dc 30%, transparent);
+  -webkit-backdrop-filter: blur(3px) saturate(1.05);
+  backdrop-filter: blur(3px) saturate(1.05);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vidrio-panel {
+    animation: vidrio-limpiar 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+  }
+  .vidrio-brillo {
+    animation: vidrio-pasada 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+  }
+}
+
+@keyframes vidrio-limpiar {
+  from {
+    background-color: color-mix(in srgb, #e8e4dc 88%, transparent);
+    -webkit-backdrop-filter: blur(26px) saturate(0.6);
+    backdrop-filter: blur(26px) saturate(0.6);
+  }
+  to {
+    background-color: color-mix(in srgb, #e8e4dc 30%, transparent);
+    -webkit-backdrop-filter: blur(3px) saturate(1.05);
+    backdrop-filter: blur(3px) saturate(1.05);
+  }
+}
+
+@keyframes vidrio-pasada {
+  from {
+    transform: translateX(-120%) skewX(-14deg);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateX(320%) skewX(-14deg);
+    opacity: 0;
+  }
+}
