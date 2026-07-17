@@ -82,45 +82,46 @@ const IconoCheck = () => (
   </svg>
 );
 
-/** Vista estática del catálogo demo dentro de un marco de navegador. */
+/** Vista estática del catálogo demo dentro de un marco de navegador, fiel al
+ * tenant real: paleta "Mercado" del set cerrado y chassis de cards hairline. */
 const CatalogoDemo = () => (
-  <div className="bg-[#fafaf9] text-[#1c1917]">
-    <div className="flex items-center gap-3 border-b border-black/10 px-5 py-3">
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#15803d] text-sm font-bold text-white">
+  <div className="bg-[#FAF7F2] text-[#2B2620]">
+    <div className="flex items-center gap-3 border-b border-[#2B2620]/15 px-5 py-3">
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#C1440E] text-sm font-bold text-white">
         A
       </span>
       <p className="truncate font-bold">Almacén Aurora</p>
-      <span className="ml-auto shrink-0 rounded-full bg-[#15803d] px-3 py-1 text-xs font-semibold text-white">
+      <span className="ml-auto shrink-0 rounded-full bg-[#C1440E] px-3 py-1 text-xs font-semibold text-white">
         Carrito · 2
       </span>
     </div>
     <div className="flex flex-col items-center gap-2 px-6 pt-6 pb-4 text-center">
-      <span className="rounded-full bg-[#b45309]/15 px-3 py-0.5 text-[11px] font-semibold text-[#b45309]">
+      <span className="rounded-full bg-[#2B4C3F]/15 px-3 py-0.5 text-[11px] font-semibold text-[#2B4C3F]">
         10% off en efectivo desde 10 unidades
       </span>
       <p className="text-xl font-bold sm:text-2xl">
-        Todo lo natural, <span className="text-[#15803d]">a un mensaje de distancia</span>
+        Todo lo natural, <span className="text-[#C1440E]">a un mensaje de distancia</span>
       </p>
     </div>
     <div className="grid grid-cols-2 gap-3 px-6 pb-8 sm:grid-cols-4">
       {PRODUCTOS_VIDRIERA.map((producto) => (
         <div
           key={producto.nombre}
-          className="overflow-hidden rounded-xl border border-black/10 bg-white/60 shadow-sm"
+          className="overflow-hidden rounded-lg border border-[#2B2620]/15 bg-white"
         >
-          <div className="flex aspect-square items-center justify-center bg-gradient-to-br from-[#15803d]/15 to-[#b45309]/15 text-3xl font-bold text-[#15803d]">
+          <div className="flex aspect-square items-center justify-center bg-gradient-to-br from-[#C1440E]/15 to-[#2B4C3F]/15 text-3xl font-bold text-[#C1440E]">
             {producto.nombre.charAt(0)}
           </div>
           <div className="flex flex-col gap-1 p-2.5">
             <p className="text-xs font-semibold leading-tight">{producto.nombre}</p>
             <div className="flex items-center justify-between pt-1">
-              <p className="text-sm font-bold">
+              <p className="text-sm font-bold tabular-nums">
                 ${producto.precio}
                 {producto.unidad && (
                   <span className="text-[10px] font-normal opacity-60"> /{producto.unidad}</span>
                 )}
               </p>
-              <span className="rounded-full bg-[#15803d] px-2 py-0.5 text-[10px] font-semibold text-white">
+              <span className="rounded-full bg-[#C1440E] px-2 py-0.5 text-[10px] font-semibold text-white">
                 Agregar
               </span>
             </div>

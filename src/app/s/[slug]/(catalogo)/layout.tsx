@@ -4,7 +4,7 @@ import { CarritoProvider } from "@/features/carrito/CarritoContext";
 import { PanelCarrito } from "@/features/carrito/PanelCarrito";
 import { EnConstruccion } from "@/features/comercio/EnConstruccion";
 import { obtenerComercio } from "@/features/comercio/datos";
-import { cssVarsDelTema, fuenteDelTema } from "@/features/comercio/tema";
+import { cssVarsDelTema } from "@/features/comercio/tema";
 
 interface Props {
   children: React.ReactNode;
@@ -28,8 +28,8 @@ export default async function CatalogoLayout({ children, params }: Props) {
 
   return (
     <div
-      style={{ ...cssVarsDelTema(comercio.tema), fontFamily: fuenteDelTema(comercio.tema.fuente) }}
-      className="min-h-screen bg-(--color-fondo) text-(--color-texto)"
+      style={cssVarsDelTema(comercio.tema)}
+      className="min-h-screen bg-(--color-fondo) font-[family-name:var(--fuente-texto)] text-(--color-texto)"
     >
       <CarritoProvider
         slug={comercio.slug}

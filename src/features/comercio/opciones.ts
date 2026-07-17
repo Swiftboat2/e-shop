@@ -1,51 +1,90 @@
 import type { Tema } from "@/core/types";
 
-// Sets cerrados de personalización (spec sección 6): paletas y fuentes
-// predefinidas — nada de color picker libre ni CSS custom.
+// Sets cerrados de personalización: paletas y combinaciones tipográficas
+// predefinidas — nada de color picker libre ni CSS custom. Las paletas están
+// curadas para que dos comercios de la plataforma no se vean como la misma
+// marca con logo cambiado.
 
 export interface Paleta {
   id: string;
   nombre: string;
+  descripcion: string;
   colores: Omit<Tema, "fuente">;
 }
 
 export const PALETAS: Paleta[] = [
   {
-    id: "bosque",
-    nombre: "Bosque",
-    colores: { colorPrimario: "#15803d", colorSecundario: "#b45309", colorFondo: "#fafaf9", colorTexto: "#1c1917" },
+    id: "mercado",
+    nombre: "Mercado",
+    descripcion: "cálido y artesanal — almacenes, gastronomía",
+    colores: { colorPrimario: "#C1440E", colorSecundario: "#2B4C3F", colorFondo: "#FAF7F2", colorTexto: "#2B2620" },
   },
   {
-    id: "oceano",
-    nombre: "Océano",
-    colores: { colorPrimario: "#0369a1", colorSecundario: "#c2410c", colorFondo: "#f8fafc", colorTexto: "#0f172a" },
+    id: "taller",
+    nombre: "Taller",
+    descripcion: "confiable y técnico — ferreterías, servicios",
+    colores: { colorPrimario: "#1E5AA8", colorSecundario: "#E8A33D", colorFondo: "#F4F4F2", colorTexto: "#232527" },
   },
   {
-    id: "uva",
-    nombre: "Uva",
-    colores: { colorPrimario: "#7c3aed", colorSecundario: "#db2777", colorFondo: "#fdfcff", colorTexto: "#1e1b4b" },
+    id: "nocturno",
+    nombre: "Nocturno",
+    descripcion: "premium y sobrio — indumentaria, gastronomía nocturna",
+    colores: { colorPrimario: "#7FB8A0", colorSecundario: "#D9C08A", colorFondo: "#14161A", colorTexto: "#EDEDEA" },
   },
   {
-    id: "carbon",
-    nombre: "Carbón",
-    colores: { colorPrimario: "#18181b", colorSecundario: "#d97706", colorFondo: "#fafafa", colorTexto: "#18181b" },
+    id: "fresco",
+    nombre: "Fresco",
+    descripcion: "directo y energético — kioscos, delivery rápido",
+    colores: { colorPrimario: "#0891B2", colorSecundario: "#F97316", colorFondo: "#FFFFFF", colorTexto: "#1A1A1A" },
   },
   {
-    id: "terracota",
-    nombre: "Terracota",
-    colores: { colorPrimario: "#c2410c", colorSecundario: "#15803d", colorFondo: "#fdf8f3", colorTexto: "#292524" },
-  },
-  {
-    id: "cerezo",
-    nombre: "Cerezo",
-    colores: { colorPrimario: "#be185d", colorSecundario: "#0d9488", colorFondo: "#fdf7f9", colorTexto: "#1c1917" },
+    id: "ceramica",
+    nombre: "Cerámica",
+    descripcion: "hecho a mano — panaderías, productos artesanales",
+    colores: { colorPrimario: "#8B4049", colorSecundario: "#6B7D5C", colorFondo: "#F2EDE4", colorTexto: "#2E2620" },
   },
 ];
 
-export const FUENTES_DISPONIBLES = [
-  { id: "inter", nombre: "Inter", descripcion: "moderna y neutra" },
-  { id: "poppins", nombre: "Poppins", descripcion: "redondeada y amigable" },
-  { id: "lora", nombre: "Lora", descripcion: "elegante, con serif" },
+// El comercio no elige fuentes sueltas (riesgo de romper jerarquía): elige una
+// combinación ya pareada de display (nombres de producto, precios, títulos) +
+// texto (descripciones, labels, UI).
+export interface ComboTipografico {
+  id: string;
+  nombre: string;
+  display: string;
+  texto: string;
+  descripcion: string;
+}
+
+export const COMBOS_TIPOGRAFICOS: ComboTipografico[] = [
+  {
+    id: "grotesca",
+    nombre: "Grotesca",
+    display: "Space Grotesk",
+    texto: "Inter",
+    descripcion: "precisa y actual",
+  },
+  {
+    id: "calida",
+    nombre: "Cálida",
+    display: "Bricolage Grotesque",
+    texto: "Source Sans 3",
+    descripcion: "con carácter, artesanal",
+  },
+  {
+    id: "geometrica",
+    nombre: "Geométrica",
+    display: "Outfit",
+    texto: "Karla",
+    descripcion: "limpia y contemporánea",
+  },
+  {
+    id: "sobria",
+    nombre: "Sobria",
+    display: "Chivo",
+    texto: "Work Sans",
+    descripcion: "seria, sin frialdad",
+  },
 ];
 
 export const ICONOS_FEATURES = [

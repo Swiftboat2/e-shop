@@ -4,7 +4,7 @@ import type { Comercio } from "@/core/types";
 
 export function EncabezadoTienda({ comercio }: { comercio: Comercio }) {
   return (
-    <header className="sticky top-0 z-20 h-14 border-b border-black/10 bg-(--color-fondo)/90 backdrop-blur">
+    <header className="sticky top-0 z-20 h-14 border-b border-(--color-borde) bg-(--color-fondo)/90 backdrop-blur">
       <div className="mx-auto flex h-full max-w-5xl items-center gap-3 px-4">
         {comercio.logoUrl ? (
           <Image
@@ -16,11 +16,13 @@ export function EncabezadoTienda({ comercio }: { comercio: Comercio }) {
             className="size-9 rounded-full object-cover"
           />
         ) : (
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-(--color-primario) font-bold text-white">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-(--color-primario) font-[family-name:var(--fuente-display)] font-bold text-(--color-sobre-primario)">
             {comercio.nombre.charAt(0)}
           </span>
         )}
-        <p className="truncate text-lg font-bold">{comercio.nombre}</p>
+        <p className="truncate font-[family-name:var(--fuente-display)] text-lg font-bold">
+          {comercio.nombre}
+        </p>
         <BotonCarritoHeader />
       </div>
     </header>

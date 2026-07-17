@@ -1,9 +1,38 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { formatearPrecio } from "@/core/dominio/precio";
 import { crearPedido } from "@/features/pedidos/acciones";
 import { useCarrito } from "./CarritoContext";
+
+/** Cantidad con slide vertical tipo odómetro al cambiar: con venta
+ * fraccionada (0,25kg → 0,5kg) el movimiento hace legible qué cambió. */
+function ContadorCantidad({ cantidad, unidad }: { cantidad: number; unidad?: string }) {
+  // Patrón de "estado del render anterior": la dirección del slide sale de
+  // comparar contra la cantidad previa, ajustada durante el render.
+  const [previa, setPrevia] = useState(cantidad);
+  const [sube, setSube] = useState(true);
+  if (cantidad !== previa) {
+    setSube(cantidad > previa);
+    setPrevia(cantidad);
+  }
+
+  return (
+    <span className="inline-flex min-w-12 justify-center overflow-hidden text-center text-sm font-semibold tabular-nums">
+      <span
+        key={cantidad}
+        className={
+          sube
+            ? "motion-safe:animate-[odometro-sube_0.18s_ease-out]"
+            : "motion-safe:animate-[odometro-baja_0.18s_ease-out]"
+        }
+      >
+        {formatearPrecio(cantidad)}
+        {unidad ? ` ${unidad}` : ""}
+      </span>
+    </span>
+  );
+}
 
 export function SheetCarrito() {
   const { items, abierto, cerrar, incrementar, quitar, vaciar, resumenPara, metodosPago, slug } =
@@ -15,6 +44,20 @@ export function SheetCarrito() {
   const [notas, setNotas] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [enviando, comenzarEnvio] = useTransition();
+
+  const resumen = resumenPara(metodoPago);
+
+  // Destello del total al cruzar un umbral de descuento por volumen: el
+  // cambio de precio se confirma con color, sin interrumpir.
+  const [destello, setDestello] = useState(0);
+  const descuentoPrevio = useRef<number | null>(null);
+  useEffect(() => {
+    const previo = descuentoPrevio.current;
+    descuentoPrevio.current = resumen.descuentoPorcentaje;
+    if (previo !== null && resumen.descuentoPorcentaje !== previo) {
+      setDestello((valor) => valor + 1);
+    }
+  }, [resumen.descuentoPorcentaje]);
 
   // Cierra con Escape y bloquea el scroll del fondo mientras está abierto.
   useEffect(() => {
@@ -30,31 +73,35 @@ export function SheetCarrito() {
 
   if (!abierto) return null;
 
-  const resumen = resumenPara(metodoPago);
-
   const enviar = (evento: React.FormEvent) => {
     evento.preventDefault();
     setError(null);
     comenzarEnvio(async () => {
-      const resultado = await crearPedido({
-        slug,
-        items: items.map((item) => ({ productoId: item.productoId, cantidad: item.cantidad })),
-        cliente: {
-          nombre,
-          metodoPago,
-          direccion: direccion.trim() || undefined,
-          notas: notas.trim() || undefined,
-        },
-      });
+      try {
+        const resultado = await crearPedido({
+          slug,
+          items: items.map((item) => ({ productoId: item.productoId, cantidad: item.cantidad })),
+          cliente: {
+            nombre,
+            metodoPago,
+            direccion: direccion.trim() || undefined,
+            notas: notas.trim() || undefined,
+          },
+        });
 
-      if (!resultado.ok) {
-        setError(resultado.error);
-        return;
+        if (!resultado.ok) {
+          setError(resultado.error);
+          return;
+        }
+
+        vaciar();
+        cerrar();
+        window.location.href = resultado.url;
+      } catch {
+        setError(
+          "No pudimos enviar el pedido, parece un problema de conexión. Tu carrito queda guardado: revisá tu señal y probá de nuevo.",
+        );
       }
-
-      vaciar();
-      cerrar();
-      window.location.href = resultado.url;
     });
   };
 
@@ -64,21 +111,21 @@ export function SheetCarrito() {
         type="button"
         aria-label="Cerrar carrito"
         onClick={cerrar}
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-black/40 motion-safe:animate-[aparece_0.2s_ease-out]"
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Tu pedido"
-        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-(--color-fondo) text-(--color-texto) shadow-2xl"
+        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-(--color-fondo) text-(--color-texto) shadow-2xl motion-safe:animate-[sheet-sube_0.28s_ease-out]"
       >
-        <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
-          <h2 className="text-lg font-bold">Tu pedido</h2>
+        <div className="flex items-center justify-between border-b border-(--color-borde) px-5 py-4">
+          <h2 className="font-[family-name:var(--fuente-display)] text-lg font-bold">Tu pedido</h2>
           <button
             type="button"
             onClick={cerrar}
             aria-label="Cerrar"
-            className="flex size-8 items-center justify-center rounded-full bg-black/5 text-lg"
+            className="flex size-8 items-center justify-center rounded-full bg-(--color-texto)/8 text-lg"
           >
             ×
           </button>
@@ -86,7 +133,9 @@ export function SheetCarrito() {
 
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {items.length === 0 ? (
-            <p className="py-8 text-center opacity-60">Tu carrito está vacío.</p>
+            <p className="py-8 text-center opacity-60">
+              Tu carrito está vacío. Tocá el + de cualquier producto y armá tu pedido acá.
+            </p>
           ) : (
             <>
               <ul className="flex flex-col gap-3">
@@ -94,7 +143,7 @@ export function SheetCarrito() {
                   <li key={item.productoId} className="flex items-center gap-3">
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold">{item.nombre}</p>
-                      <p className="text-xs opacity-60">
+                      <p className="text-xs tabular-nums opacity-60">
                         ${formatearPrecio(item.precio)}
                         {item.unidadMedida ? ` /${item.unidadMedida}` : " c/u"}
                       </p>
@@ -104,44 +153,46 @@ export function SheetCarrito() {
                         type="button"
                         onClick={() => quitar(item.productoId)}
                         aria-label={`Quitar ${item.nombre}`}
-                        className="flex size-7 items-center justify-center rounded-full border border-black/15 font-bold"
+                        className="flex size-7 items-center justify-center rounded-full border border-(--color-borde) font-bold"
                       >
                         −
                       </button>
-                      <span className="min-w-12 text-center text-sm font-semibold">
-                        {formatearPrecio(item.cantidad)}
-                        {item.unidadMedida ? ` ${item.unidadMedida}` : ""}
-                      </span>
+                      <ContadorCantidad cantidad={item.cantidad} unidad={item.unidadMedida} />
                       <button
                         type="button"
                         onClick={() => incrementar(item.productoId)}
                         aria-label={`Agregar más ${item.nombre}`}
-                        className="flex size-7 items-center justify-center rounded-full border border-black/15 font-bold"
+                        className="flex size-7 items-center justify-center rounded-full bg-(--color-primario) font-bold text-(--color-sobre-primario)"
                       >
                         +
                       </button>
                     </div>
-                    <p className="w-20 text-right text-sm font-bold">
+                    <p className="w-20 text-right text-sm font-bold tabular-nums">
                       ${formatearPrecio(item.precio * item.cantidad)}
                     </p>
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-5 flex flex-col gap-1 border-t border-black/10 pt-4 text-sm">
+              <div className="mt-5 flex flex-col gap-1 border-t border-(--color-borde) pt-4 text-sm">
                 {resumen.descuentoPorcentaje > 0 && (
                   <>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between tabular-nums">
                       <span>Subtotal</span>
                       <span>${formatearPrecio(resumen.subtotal)}</span>
                     </div>
-                    <div className="flex justify-between font-medium text-(--color-primario)">
+                    <div className="flex justify-between font-medium tabular-nums text-(--color-primario)">
                       <span>Descuento por volumen ({resumen.descuentoPorcentaje}%)</span>
                       <span>-${formatearPrecio(resumen.descuentoMonto)}</span>
                     </div>
                   </>
                 )}
-                <div className="flex justify-between text-base font-bold">
+                <div
+                  key={destello}
+                  className={`flex justify-between rounded-md text-base font-bold tabular-nums ${
+                    destello > 0 ? "motion-safe:animate-[destello-descuento_0.6s_ease-out]" : ""
+                  }`}
+                >
                   <span>Total</span>
                   <span>${formatearPrecio(resumen.total)}</span>
                 </div>
@@ -155,7 +206,7 @@ export function SheetCarrito() {
                     value={nombre}
                     onChange={(evento) => setNombre(evento.target.value)}
                     placeholder="¿Quién hace el pedido?"
-                    className="rounded-lg border border-black/15 bg-white px-3 py-2 text-base"
+                    className="rounded-lg border border-(--color-borde) bg-(--color-superficie) px-3 py-2 text-base placeholder:text-(--color-texto)/45"
                   />
                 </label>
 
@@ -168,7 +219,7 @@ export function SheetCarrito() {
                         className={`cursor-pointer rounded-full border px-4 py-1.5 ${
                           metodoPago === metodo.id
                             ? "border-(--color-primario) bg-(--color-primario)/10 text-(--color-primario)"
-                            : "border-black/15"
+                            : "border-(--color-borde)"
                         }`}
                       >
                         <input
@@ -191,7 +242,7 @@ export function SheetCarrito() {
                     value={direccion}
                     onChange={(evento) => setDireccion(evento.target.value)}
                     placeholder="Calle, número, referencia"
-                    className="rounded-lg border border-black/15 bg-white px-3 py-2 text-base"
+                    className="rounded-lg border border-(--color-borde) bg-(--color-superficie) px-3 py-2 text-base placeholder:text-(--color-texto)/45"
                   />
                 </label>
 
@@ -202,7 +253,7 @@ export function SheetCarrito() {
                     onChange={(evento) => setNotas(evento.target.value)}
                     rows={2}
                     placeholder="Aclaraciones para el comercio"
-                    className="rounded-lg border border-black/15 bg-white px-3 py-2 text-base"
+                    className="rounded-lg border border-(--color-borde) bg-(--color-superficie) px-3 py-2 text-base placeholder:text-(--color-texto)/45"
                   />
                 </label>
 
@@ -215,7 +266,7 @@ export function SheetCarrito() {
                 <button
                   type="submit"
                   disabled={enviando}
-                  className="mt-1 rounded-xl bg-(--color-primario) px-5 py-3.5 font-bold text-white disabled:opacity-60"
+                  className="mt-1 rounded-lg bg-(--color-primario) px-5 py-3.5 font-bold text-(--color-sobre-primario) disabled:opacity-60"
                 >
                   {enviando ? "Enviando..." : "Enviar pedido por WhatsApp"}
                 </button>

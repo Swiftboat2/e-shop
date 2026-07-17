@@ -11,7 +11,7 @@ export function BotonAgregar({ producto }: { producto: Producto }) {
       type="button"
       onClick={() => agregar(producto)}
       aria-label={`Agregar ${producto.nombre} al carrito`}
-      className="flex size-8 items-center justify-center rounded-full bg-(--color-primario) text-lg font-bold text-white transition-transform active:scale-90"
+      className="flex size-8 items-center justify-center rounded-full bg-(--color-primario) text-lg font-bold text-(--color-sobre-primario) transition-transform motion-safe:active:scale-90"
     >
       +
     </button>

@@ -25,6 +25,93 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* El scroll con anclas (nav de categorías del catálogo, secciones de la
+   landing) se desliza en vez de saltar, salvo que el usuario pida menos
+   movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Motion del catálogo: funcional y restringido — cada animación confirma una
+   acción, nunca decora. Se aplican vía clases motion-safe:* en los
+   componentes, así prefers-reduced-motion las apaga de raíz. */
+
+/* Carrito flotante: pulso tipo spring al sumar un producto — confirma sin
+   interrumpir con un toast. */
+@keyframes carrito-pulso {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Contador de cantidad: slide vertical breve tipo odómetro, clave para que
+   las cantidades decimales (venta por peso/medida) se lean con claridad. */
+@keyframes odometro-sube {
+  from {
+    transform: translateY(55%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes odometro-baja {
+  from {
+    transform: translateY(-55%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Total del carrito: destello breve al cruzar un umbral de descuento por
+   volumen — nada de confetti ni modal. */
+@keyframes destello-descuento {
+  0% {
+    color: var(--color-primario);
+    background-color: color-mix(in srgb, var(--color-primario) 12%, transparent);
+  }
+  100% {
+    color: inherit;
+    background-color: transparent;
+  }
+}
+
+/* Checkout en bottom-sheet: sube con ease-out estándar, sin rebote; el fondo
+   se atenúa en paralelo. */
+@keyframes sheet-sube {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Efecto vidriera del hero de la landing: un panel de vidrio que al cargar se
    "empaña y aclara", revelando el catálogo detrás. Es el único uso de
    backdrop-blur decorativo del sitio; el estado final conserva un blur leve

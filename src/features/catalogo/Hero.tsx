@@ -8,7 +8,7 @@ export function Hero({ contenido }: { contenido: Contenido }) {
           {contenido.heroBadge}
         </span>
       )}
-      <h1 className="max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
+      <h1 className="max-w-2xl font-[family-name:var(--fuente-display)] text-4xl font-bold leading-tight sm:text-5xl">
         {contenido.heroTitulo}{" "}
         <span className="text-(--color-primario)">{contenido.heroTituloDestacado}</span>
       </h1>

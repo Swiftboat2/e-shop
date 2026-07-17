@@ -22,7 +22,7 @@ export function BannerApertura({ horarios, timezone }: { horarios: FranjaHoraria
   }
 
   return (
-    <div className="bg-black/5 px-4 py-2 text-center text-sm font-medium opacity-80">
+    <div className="bg-(--color-texto)/5 px-4 py-2 text-center text-sm font-medium opacity-80">
       {estado.proximaApertura ? etiquetaProxima(estado.proximaApertura) : "Cerrado por ahora"}
     </div>
   );
