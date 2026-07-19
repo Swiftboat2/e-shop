@@ -32,6 +32,12 @@ function luminancia(hex: string): number {
   return 0.2126 * canal(1) + 0.7152 * canal(3) + 0.0722 * canal(5);
 }
 
+/** Color de texto que contrasta sobre un fondo del color primario dado
+ * (usado tanto en --color-sobre-primario como en la imagen OG del tenant). */
+export function colorSobrePrimario(colorPrimario: string): string {
+  return luminancia(colorPrimario) > 0.35 ? "#14161A" : "#FFFFFF";
+}
+
 /** Variables CSS del tema del comercio, inyectadas server-side para evitar
  * flash de colores por defecto. Los componentes las consumen vía Tailwind
  * (ej. bg-(--color-primario)), nunca con colores hardcodeados.
@@ -51,7 +57,7 @@ export function cssVarsDelTema(tema: Tema): CSSProperties {
     "--color-texto": tema.colorTexto,
     "--color-borde": `color-mix(in srgb, ${tema.colorTexto} 14%, transparent)`,
     "--color-superficie": `color-mix(in srgb, ${tema.colorFondo} 88%, #ffffff 12%)`,
-    "--color-sobre-primario": luminancia(tema.colorPrimario) > 0.35 ? "#14161A" : "#FFFFFF",
+    "--color-sobre-primario": colorSobrePrimario(tema.colorPrimario),
     "--fuente-display": combo.display,
     "--fuente-texto": combo.texto,
   } as CSSProperties;
