@@ -1,8 +1,10 @@
 "use server";
 
 import { FieldValue } from "firebase-admin/firestore";
+import { headers } from "next/headers";
 import { z } from "zod";
 import { calcularResumenPrecio } from "@/core/dominio/descuentos";
+import { evaluarLimite, type EstadoLimite } from "@/core/dominio/limitador";
 import { generarNumeroCorto } from "@/core/dominio/numeroCorto";
 import { armarItemsPedido } from "@/core/dominio/pedidos";
 import { generarLinkWhatsApp } from "@/core/dominio/whatsapp";
@@ -33,6 +35,41 @@ export type ResultadoCrearPedido =
   | { ok: true; url: string; numeroCorto: string }
   | { ok: false; error: string };
 
+/** IP del cliente vista por el primer proxy (Vercel la agrega siempre en
+ * producción). Sin ese header, o fuera de un request real (tests, scripts
+ * que invocan la acción directo), todos comparten un balde. */
+async function obtenerIpCliente(): Promise<string> {
+  try {
+    const encabezados = await headers();
+    const reenviada = encabezados.get("x-forwarded-for");
+    if (reenviada) return reenviada.split(",")[0]!.trim();
+    return encabezados.get("x-real-ip") ?? "desconocida";
+  } catch {
+    return "desconocida";
+  }
+}
+
+/**
+ * Máximo de pedidos por IP y por comercio dentro de la ventana (ver
+ * core/dominio/limitador.ts). Evita que un script le llene el WhatsApp de
+ * pedidos fantasma a un comercio: crearPedido es una Server Action pública,
+ * sin autenticación de por medio.
+ */
+async function dentroDelLimite(slug: string, ip: string): Promise<boolean> {
+  // Un doc por (comercio, ip): "/" es el único carácter no permitido en un
+  // ID de Firestore, y es justo el separador de octetos de IPv6.
+  const clave = ip.replace(/\//g, "_").slice(0, 200);
+  const referencia = adminDb.doc(`comercios/${slug}/limitesPedidos/${clave}`);
+
+  return adminDb.runTransaction(async (tx) => {
+    const snapshot = await tx.get(referencia);
+    const estadoPrevio = snapshot.exists ? (snapshot.data() as EstadoLimite) : null;
+    const resultado = evaluarLimite(estadoPrevio, Date.now());
+    tx.set(referencia, resultado.estado);
+    return resultado.permitido;
+  });
+}
+
 /**
  * Registra el pedido y devuelve el link de WhatsApp. Corre con Admin SDK y
  * recalcula precios, descuentos y totales desde la base: nada de lo que
@@ -46,6 +83,14 @@ export async function crearPedido(entrada: unknown): Promise<ResultadoCrearPedid
     return { ok: false, error };
   }
   const { slug, items: itemsCliente, cliente } = parseado.data;
+
+  const ip = await obtenerIpCliente();
+  if (!(await dentroDelLimite(slug, ip))) {
+    return {
+      ok: false,
+      error: "Estás enviando pedidos muy seguido. Esperá unos minutos y probá de nuevo.",
+    };
+  }
 
   const comercio = await obtenerComercio(slug);
   if (!comercio?.activo) return { ok: false, error: "La tienda no está disponible." };

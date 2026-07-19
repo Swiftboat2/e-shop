@@ -6,3 +6,4 @@ export * from "./presupuestos";
 export * from "./descuentos";
 export * from "./whatsapp";
 export * from "./numeroCorto";
+export * from "./limitador";

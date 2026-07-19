@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { crearPedido } from "@/features/pedidos/acciones";
 
 // Test de integración real contra el emulador de Firestore.
@@ -84,6 +84,19 @@ describe.skipIf(!emuladorDisponible)("crearPedido (contra emulador)", () => {
   afterAll(async () => {
     const { adminDb } = await import("@/core/firebase/admin");
     await adminDb.recursiveDelete(adminDb.doc(`comercios/${SLUG}`));
+  });
+
+  // headers() no corre en un request real acá: obtenerIpCliente cae siempre
+  // a "desconocida", así que sin este reset el rate limit de crearPedido
+  // (pensado para frenar spam desde una sola IP) terminaría bloqueando los
+  // demás tests de este archivo entre sí (y, entre corridas sucesivas, con
+  // el estado que haya quedado en el emulador de una corrida anterior).
+  beforeEach(async () => {
+    const { adminDb } = await import("@/core/firebase/admin");
+    await Promise.all([
+      adminDb.doc(`comercios/${SLUG}/limitesPedidos/desconocida`).delete(),
+      adminDb.doc("comercios/no-existe/limitesPedidos/desconocida").delete(),
+    ]);
   });
 
   it("registra el pedido recalculando totales server-side y devuelve el link", async () => {
@@ -175,5 +188,25 @@ describe.skipIf(!emuladorDisponible)("crearPedido (contra emulador)", () => {
       cliente: { nombre: "Juana", metodoPago: "efectivo" },
     });
     expect(fantasma).toEqual({ ok: false, error: "La tienda no está disponible." });
+  });
+
+  it("bloquea pedidos repetidos desde el mismo origen dentro de la ventana", async () => {
+    const pedido = () =>
+      crearPedido({
+        slug: SLUG,
+        items: [{ productoId: "prod-a", cantidad: 1 }],
+        cliente: { nombre: "Juana", metodoPago: "efectivo" },
+      });
+
+    // MAXIMO_PEDIDOS_POR_VENTANA es 3: los primeros tres entran.
+    expect((await pedido()).ok).toBe(true);
+    expect((await pedido()).ok).toBe(true);
+    expect((await pedido()).ok).toBe(true);
+
+    const cuarto = await pedido();
+    expect(cuarto).toEqual({
+      ok: false,
+      error: "Estás enviando pedidos muy seguido. Esperá unos minutos y probá de nuevo.",
+    });
   });
 });
