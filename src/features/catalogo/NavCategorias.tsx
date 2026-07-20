@@ -10,7 +10,7 @@ export function NavCategorias({ categorias }: { categorias: Categoria[] }) {
           <a
             key={categoria.id}
             href={`#categoria-${categoria.id}`}
-            className="whitespace-nowrap rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium hover:border-(--color-primario) hover:text-(--color-primario)"
+            className="whitespace-nowrap rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium transition-colors hover:border-(--color-primario) hover:text-(--color-primario)"
           >
             {categoria.nombre}
           </a>

@@ -19,10 +19,16 @@ export function SeccionUbicacion({
   horarios: FranjaHoraria[];
 }) {
   return (
-    <section className="border-t border-black/10 bg-black/[0.02] py-12">
+    <section
+      className="border-t border-black/10 bg-black/[0.02]"
+      style={{
+        paddingTop: "var(--tema-espaciado-seccion)",
+        paddingBottom: "var(--tema-espaciado-seccion)",
+      }}
+    >
       <div className="mx-auto grid max-w-5xl gap-8 px-4 sm:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <h2 className="text-2xl font-bold">Dónde estamos</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Dónde estamos</h2>
           <p className="opacity-80">{contacto.direccion}</p>
           <p className="opacity-80">{contacto.telefono}</p>
           <div>
@@ -42,7 +48,7 @@ export function SeccionUbicacion({
         <iframe
           title="Ubicación del comercio"
           src={`https://maps.google.com/maps?q=${contacto.mapLat},${contacto.mapLng}&z=15&output=embed`}
-          className="h-72 w-full rounded-2xl border border-black/10"
+          className="h-72 w-full rounded-(--tema-radio) border border-black/10"
           loading="lazy"
         />
       </div>

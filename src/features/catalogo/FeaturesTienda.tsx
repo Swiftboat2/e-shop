@@ -35,7 +35,10 @@ export function FeaturesTienda({ features }: { features: Feature[] }) {
   if (features.length === 0) return null;
 
   return (
-    <section className="mx-auto flex max-w-5xl flex-wrap justify-center gap-2 px-4 pb-8">
+    <section
+      className="mx-auto flex max-w-5xl flex-wrap justify-center gap-2 px-4"
+      style={{ paddingBottom: "var(--tema-espaciado-seccion)" }}
+    >
       {features.map((feature) => (
         <div
           key={feature.texto}
