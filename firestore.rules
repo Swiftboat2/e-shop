@@ -46,6 +46,12 @@ service cloud.firestore {
         // Alta de admins siempre server-side, nunca desde el cliente.
         allow write: if false;
       }
+
+      match /limitesPedidos/{clave} {
+        // Contador del rate limit de crearPedido (Server Action, Admin SDK):
+        // el cliente nunca lo lee ni lo escribe directo.
+        allow read, write: if false;
+      }
     }
   }
 }

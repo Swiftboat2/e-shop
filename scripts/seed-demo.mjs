@@ -33,12 +33,13 @@ const demo = {
   plan: "demo",
   timezone: "America/Argentina/Buenos_Aires",
   createdAt: new Date(),
+  // Paleta "Mercado" + combo "Cálida" del set cerrado (features/comercio/opciones.ts).
   tema: {
-    colorPrimario: "#15803d",
-    colorSecundario: "#b45309",
-    colorFondo: "#fafaf9",
-    colorTexto: "#1c1917",
-    fuente: "inter",
+    colorPrimario: "#C1440E",
+    colorSecundario: "#2B4C3F",
+    colorFondo: "#FAF7F2",
+    colorTexto: "#2B2620",
+    fuente: "calida",
   },
   contenido: {
     heroBadge: "10% off en efectivo desde 10 unidades",

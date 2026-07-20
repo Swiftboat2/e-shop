@@ -119,4 +119,11 @@ describe.skipIf(!emuladorDisponible)("firestore.rules", () => {
     await assertSucceeds(updateDoc(doc(adminA(), "comercios/tienda-a"), { nombre: "Tienda A2" }));
     await assertFails(updateDoc(doc(anonimo(), "comercios/tienda-a"), { nombre: "Hackeada" }));
   });
+
+  it("el contador del rate limit de pedidos no se lee ni se escribe desde el cliente", async () => {
+    const estado = { ventanaInicio: 0, cantidad: 1 };
+    await assertFails(setDoc(doc(anonimo(), "comercios/tienda-a/limitesPedidos/1_2_3_4"), estado));
+    await assertFails(setDoc(doc(adminA(), "comercios/tienda-a/limitesPedidos/1_2_3_4"), estado));
+    await assertFails(getDoc(doc(adminA(), "comercios/tienda-a/limitesPedidos/1_2_3_4")));
+  });
 });

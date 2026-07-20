@@ -71,12 +71,14 @@ batch.set(referencia, {
   plan: "estandar",
   timezone: "America/Argentina/Buenos_Aires",
   createdAt: new Date(),
+  // Tema inicial: paleta "Taller" + combo "Grotesca" del set cerrado
+  // (features/comercio/opciones.ts); el dueño lo cambia desde el panel.
   tema: {
-    colorPrimario: "#0f766e",
-    colorSecundario: "#b45309",
-    colorFondo: "#fafaf9",
-    colorTexto: "#1c1917",
-    fuente: "inter",
+    colorPrimario: "#1E5AA8",
+    colorSecundario: "#E8A33D",
+    colorFondo: "#F4F4F2",
+    colorTexto: "#232527",
+    fuente: "grotesca",
   },
   contenido: { heroTitulo: "", heroTituloDestacado: "", heroDescripcion: "", heroBadge: "" },
   features: [],
