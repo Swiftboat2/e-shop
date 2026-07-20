@@ -15,7 +15,8 @@ interface Props {
   onCerrar: () => void;
 }
 
-const CAMPO = "rounded-lg border border-stone-300 bg-white px-3 py-2 text-base";
+const CAMPO =
+  "rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) px-3 py-2 text-base";
 
 export function FormProducto({
   slug,
@@ -147,15 +148,15 @@ export function FormProducto({
         role="dialog"
         aria-modal="true"
         aria-label={producto ? "Editar producto" : "Nuevo producto"}
-        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-2xl bg-white text-stone-900 shadow-2xl sm:inset-x-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl"
+        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-2xl bg-(--admin-superficie) text-(--admin-texto) shadow-2xl sm:inset-x-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl"
       >
-        <div className="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-(--admin-borde) px-5 py-4">
           <h2 className="text-lg font-bold">{producto ? "Editar producto" : "Nuevo producto"}</h2>
           <button
             type="button"
             onClick={onCerrar}
             aria-label="Cerrar"
-            className="flex size-8 items-center justify-center rounded-full bg-stone-100 text-lg"
+            className="flex size-8 items-center justify-center rounded-full bg-(--admin-acento-suave) text-lg"
           >
             ×
           </button>
@@ -197,7 +198,7 @@ export function FormProducto({
               </p>
             )}
             {comboAbierto && (busquedaCategoria.trim() || filtradas.length > 0) && (
-              <div className="absolute top-full z-10 mt-1 flex w-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-lg">
+              <div className="absolute top-full z-10 mt-1 flex w-full flex-col overflow-hidden rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) shadow-lg">
                 {filtradas.map((categoria) => (
                   <button
                     key={categoria.id}
@@ -206,7 +207,7 @@ export function FormProducto({
                       e.preventDefault();
                       elegirCategoria(categoria);
                     }}
-                    className="px-3 py-2 text-left text-sm hover:bg-stone-100"
+                    className="px-3 py-2 text-left text-sm hover:bg-(--admin-acento-suave)"
                   >
                     {categoria.nombre}
                   </button>
@@ -218,7 +219,7 @@ export function FormProducto({
                       e.preventDefault();
                       crearCategoria();
                     }}
-                    className="border-t border-stone-100 px-3 py-2 text-left text-sm font-medium text-emerald-700 hover:bg-emerald-50"
+                    className="border-t border-(--admin-borde) px-3 py-2 text-left text-sm font-medium text-emerald-700 hover:bg-emerald-50"
                   >
                     + Crear categoría &quot;{busquedaCategoria.trim()}&quot;
                   </button>
@@ -236,8 +237,8 @@ export function FormProducto({
                     key={unidad.valor}
                     className={`cursor-pointer rounded-full border px-4 py-1.5 ${
                       formatoValor === unidad.valor
-                        ? "border-stone-900 bg-stone-900 text-white"
-                        : "border-stone-300"
+                        ? "border-(--admin-acento) bg-(--admin-acento) text-(--admin-acento-texto)"
+                        : "border-(--admin-borde)"
                     }`}
                   >
                     <input
@@ -322,7 +323,7 @@ export function FormProducto({
               <button
                 type="button"
                 onClick={agregarBeneficio}
-                className="rounded-lg border border-stone-300 px-4 font-semibold"
+                className="rounded-(--admin-radio-md) border border-(--admin-borde) px-4 font-semibold"
               >
                 Agregar
               </button>
@@ -332,7 +333,7 @@ export function FormProducto({
                 {beneficios.map((beneficio) => (
                   <span
                     key={beneficio}
-                    className="flex items-center gap-1 rounded-full bg-stone-100 px-3 py-1 text-xs"
+                    className="flex items-center gap-1 rounded-full bg-(--admin-acento-suave) px-3 py-1 text-xs"
                   >
                     {beneficio}
                     <button
@@ -378,7 +379,7 @@ export function FormProducto({
           <button
             type="submit"
             disabled={guardando}
-            className="rounded-xl bg-stone-900 px-5 py-3 font-bold text-white disabled:opacity-60"
+            className="rounded-(--admin-radio-lg) bg-(--admin-acento) px-5 py-3 font-bold text-(--admin-acento-texto) disabled:opacity-60"
           >
             {guardando ? "Guardando..." : producto ? "Guardar cambios" : "Crear producto"}
           </button>

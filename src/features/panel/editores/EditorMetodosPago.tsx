@@ -64,7 +64,7 @@ export function EditorMetodosPago({
             aria-label={`Quitar ${metodo.nombre}`}
             disabled={value.length === 1}
             onClick={() => onChange(value.filter((_, i) => i !== indice))}
-            className="rounded-lg border border-stone-300 px-3 py-2 font-bold disabled:opacity-40"
+            className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 py-2 font-bold disabled:opacity-40"
           >
             ×
           </button>
@@ -87,7 +87,7 @@ export function EditorMetodosPago({
         <button
           type="button"
           onClick={agregar}
-          className="rounded-lg border border-stone-300 px-4 font-semibold"
+          className="rounded-(--admin-radio-md) border border-(--admin-borde) px-4 font-semibold"
         >
           Agregar
         </button>

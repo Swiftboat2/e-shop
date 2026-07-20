@@ -81,7 +81,7 @@ export function EditorDescuentos({
                   onClick={() =>
                     onChange({ ...value, reglas: value.reglas.filter((_, i) => i !== indice) })
                   }
-                  className="px-1 font-bold text-stone-400 hover:text-red-600"
+                  className="px-1 font-bold text-(--admin-texto-secundario) hover:text-red-600"
                 >
                   ×
                 </button>
@@ -95,7 +95,7 @@ export function EditorDescuentos({
                   reglas: [...value.reglas, { desdeCantidad: 10, descuentoPorcentaje: 10 }],
                 })
               }
-              className="w-fit rounded-lg border border-stone-300 px-4 py-1.5 text-sm font-semibold"
+              className="w-fit rounded-(--admin-radio-md) border border-(--admin-borde) px-4 py-1.5 text-sm font-semibold"
             >
               + Agregar regla
             </button>

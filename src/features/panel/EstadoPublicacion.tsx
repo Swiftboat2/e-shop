@@ -32,8 +32,8 @@ export function EstadoPublicacion({
   };
 
   return (
-    <div className="rounded-xl border border-stone-200 bg-white p-4">
-      <p className="text-sm text-stone-500">Estado de la tienda</p>
+    <div className="rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) p-4">
+      <p className="text-sm text-(--admin-texto-secundario)">Estado de la tienda</p>
       <p className="mt-1 font-semibold">{activo ? "Publicada" : "En construcción"}</p>
 
       <div className="mt-3">
@@ -65,7 +65,7 @@ export function EstadoPublicacion({
           <button
             type="button"
             onClick={() => setConfirmando(true)}
-            className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-600"
+            className="rounded-(--admin-radio-md) border border-(--admin-borde) px-4 py-2 text-sm font-semibold text-(--admin-texto-secundario)"
           >
             Despublicar
           </button>

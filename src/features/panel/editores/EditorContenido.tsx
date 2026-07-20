@@ -83,7 +83,7 @@ export function EditorContenido({ contenido, onContenido, features, onFeatures }
                 type="button"
                 aria-label="Quitar diferencial"
                 onClick={() => onFeatures(features.filter((_, i) => i !== indice))}
-                className="rounded-lg border border-stone-300 px-3 font-bold"
+                className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 font-bold"
               >
                 ×
               </button>
@@ -92,7 +92,7 @@ export function EditorContenido({ contenido, onContenido, features, onFeatures }
           <button
             type="button"
             onClick={() => onFeatures([...features, { icono: "check", texto: "" }])}
-            className="w-fit rounded-lg border border-stone-300 px-4 py-1.5 font-semibold"
+            className="w-fit rounded-(--admin-radio-md) border border-(--admin-borde) px-4 py-1.5 font-semibold"
           >
             + Agregar diferencial
           </button>

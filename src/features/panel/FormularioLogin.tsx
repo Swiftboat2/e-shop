@@ -49,11 +49,11 @@ export function FormularioLogin({
   return (
     <form
       onSubmit={ingresar}
-      className="flex w-full max-w-sm flex-col gap-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm"
+      className="flex w-full max-w-sm flex-col gap-4 rounded-2xl border border-(--admin-borde) bg-(--admin-superficie) p-6 shadow-sm"
     >
       <div>
         <h1 className="text-xl font-bold">{nombreComercio}</h1>
-        <p className="text-sm text-stone-500">Panel de administración</p>
+        <p className="text-sm text-(--admin-texto-secundario)">Panel de administración</p>
       </div>
 
       <label className="flex flex-col gap-1 text-sm font-medium">
@@ -64,7 +64,7 @@ export function FormularioLogin({
           value={email}
           onChange={(evento) => setEmail(evento.target.value)}
           autoComplete="email"
-          className="rounded-lg border border-stone-300 px-3 py-2 text-base"
+          className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 py-2 text-base"
         />
       </label>
 
@@ -76,7 +76,7 @@ export function FormularioLogin({
           value={password}
           onChange={(evento) => setPassword(evento.target.value)}
           autoComplete="current-password"
-          className="rounded-lg border border-stone-300 px-3 py-2 text-base"
+          className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 py-2 text-base"
         />
       </label>
 
@@ -89,7 +89,7 @@ export function FormularioLogin({
       <button
         type="submit"
         disabled={verificando}
-        className="rounded-lg bg-stone-900 px-5 py-2.5 font-semibold text-white disabled:opacity-60"
+        className="rounded-(--admin-radio-md) bg-(--admin-acento) px-5 py-2.5 font-semibold text-(--admin-acento-texto) disabled:opacity-60"
       >
         {verificando ? "Ingresando..." : "Ingresar"}
       </button>

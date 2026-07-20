@@ -98,15 +98,15 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
         role="dialog"
         aria-modal="true"
         aria-label="Nuevo presupuesto"
-        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-white text-stone-900 shadow-2xl sm:inset-x-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl"
+        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-(--admin-superficie) text-(--admin-texto) shadow-2xl sm:inset-x-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl"
       >
-        <div className="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-(--admin-borde) px-5 py-4">
           <h2 className="text-lg font-bold">Nuevo presupuesto</h2>
           <button
             type="button"
             onClick={onCerrar}
             aria-label="Cerrar"
-            className="flex size-8 items-center justify-center rounded-full bg-stone-100 text-lg"
+            className="flex size-8 items-center justify-center rounded-full bg-(--admin-acento-suave) text-lg"
           >
             ×
           </button>
@@ -180,13 +180,13 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
                     aria-label="Quitar item"
                     disabled={filas.length === 1}
                     onClick={() => setFilas(filas.filter((_, i) => i !== indice))}
-                    className="rounded-lg border border-stone-300 px-3 py-2 font-bold disabled:opacity-40"
+                    className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 py-2 font-bold disabled:opacity-40"
                   >
                     ×
                   </button>
 
                   {sugerencias.length > 0 && (
-                    <div className="absolute top-full left-0 z-10 mt-1 flex w-full max-w-md flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-lg">
+                    <div className="absolute top-full left-0 z-10 mt-1 flex w-full max-w-md flex-col overflow-hidden rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) shadow-lg">
                       {sugerencias.map((producto) => (
                         <button
                           key={producto.id}
@@ -200,10 +200,10 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
                             });
                             setSugerenciasEn(null);
                           }}
-                          className="flex justify-between px-3 py-2 text-left text-sm hover:bg-stone-100"
+                          className="flex justify-between px-3 py-2 text-left text-sm hover:bg-(--admin-acento-suave)"
                         >
                           <span>{producto.nombre}</span>
-                          <span className="text-stone-500">${formatearPrecio(producto.precio)}</span>
+                          <span className="text-(--admin-texto-secundario)">${formatearPrecio(producto.precio)}</span>
                         </button>
                       ))}
                     </div>
@@ -214,7 +214,7 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
             <button
               type="button"
               onClick={() => setFilas([...filas, { ...FILA_VACIA }])}
-              className="w-fit rounded-lg border border-stone-300 px-4 py-1.5 font-semibold"
+              className="w-fit rounded-(--admin-radio-md) border border-(--admin-borde) px-4 py-1.5 font-semibold"
             >
               + Agregar item
             </button>
@@ -247,7 +247,7 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
             <textarea value={notas} onChange={(e) => setNotas(e.target.value)} rows={2} className={CAMPO} />
           </label>
 
-          <div className="flex flex-col gap-1 border-t border-stone-200 pt-3 text-sm">
+          <div className="flex flex-col gap-1 border-t border-(--admin-borde) pt-3 text-sm">
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>${formatearPrecio(totales.subtotal)}</span>
@@ -273,7 +273,7 @@ export function FormPresupuesto({ slug, onCerrar }: { slug: string; onCerrar: ()
           <button
             type="submit"
             disabled={guardando}
-            className="rounded-xl bg-stone-900 px-5 py-3 font-bold text-white disabled:opacity-60"
+            className="rounded-(--admin-radio-lg) bg-(--admin-acento) px-5 py-3 font-bold text-(--admin-acento-texto) disabled:opacity-60"
           >
             {guardando ? "Creando..." : "Crear presupuesto"}
           </button>

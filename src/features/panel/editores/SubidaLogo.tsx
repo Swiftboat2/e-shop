@@ -37,7 +37,7 @@ export function SubidaLogo({ slug, logoUrl }: { slug: string; logoUrl: string })
           className="size-12 rounded-full object-cover"
         />
       ) : (
-        <span className="flex size-12 items-center justify-center rounded-full bg-stone-200 text-xs text-stone-500">
+        <span className="flex size-12 items-center justify-center rounded-full bg-(--admin-acento-suave) text-xs text-(--admin-texto-secundario)">
           Logo
         </span>
       )}
@@ -51,7 +51,7 @@ export function SubidaLogo({ slug, logoUrl }: { slug: string; logoUrl: string })
           className="text-sm"
         />
       </label>
-      {subiendo && <span className="text-sm text-stone-500">Subiendo...</span>}
+      {subiendo && <span className="text-sm text-(--admin-texto-secundario)">Subiendo...</span>}
       {error && <span className="text-sm text-red-600">{error}</span>}
     </div>
   );

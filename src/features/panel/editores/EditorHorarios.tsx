@@ -32,10 +32,10 @@ export function EditorHorarios({
           .filter(({ franja }) => franja.dia === dia);
 
         return (
-          <div key={dia} className="flex flex-wrap items-center gap-2 border-b border-stone-100 pb-2 last:border-0">
+          <div key={dia} className="flex flex-wrap items-center gap-2 border-b border-(--admin-borde) pb-2 last:border-0">
             <p className="w-24 text-sm font-medium">{nombre}</p>
             {franjasDelDia.length === 0 && (
-              <span className="text-sm text-stone-400">Cerrado</span>
+              <span className="text-sm text-(--admin-texto-secundario)">Cerrado</span>
             )}
             {franjasDelDia.map(({ franja, indice }) => (
               <span key={indice} className="flex items-center gap-1">
@@ -46,7 +46,7 @@ export function EditorHorarios({
                   aria-label={`Apertura ${nombre}`}
                   className={CAMPO}
                 />
-                <span className="text-stone-400">–</span>
+                <span className="text-(--admin-texto-secundario)">–</span>
                 <input
                   type="time"
                   value={franja.cierre}
@@ -58,7 +58,7 @@ export function EditorHorarios({
                   type="button"
                   aria-label={`Quitar franja de ${nombre}`}
                   onClick={() => onChange(value.filter((_, i) => i !== indice))}
-                  className="px-1 font-bold text-stone-400 hover:text-red-600"
+                  className="px-1 font-bold text-(--admin-texto-secundario) hover:text-red-600"
                 >
                   ×
                 </button>
@@ -67,14 +67,14 @@ export function EditorHorarios({
             <button
               type="button"
               onClick={() => onChange([...value, { dia, apertura: "09:00", cierre: "13:00" }])}
-              className="rounded-full border border-stone-300 px-3 py-1 text-xs font-semibold"
+              className="rounded-full border border-(--admin-borde) px-3 py-1 text-xs font-semibold"
             >
               + franja
             </button>
           </div>
         );
       })}
-      <p className="text-xs text-stone-500">
+      <p className="text-xs text-(--admin-texto-secundario)">
         Una franja que termina después de medianoche se carga con cierre menor a la apertura
         (ej. 20:00 – 02:00).
       </p>

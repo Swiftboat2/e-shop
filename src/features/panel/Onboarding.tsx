@@ -58,24 +58,24 @@ export function Onboarding({ slug, comercio }: { slug: string; comercio: Comerci
   };
 
   return (
-    <main className="flex min-h-screen justify-center bg-stone-100 p-4 text-stone-900 sm:items-center">
-      <div className="flex w-full max-w-xl flex-col gap-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+    <main className="flex min-h-screen justify-center bg-(--admin-bg) p-4 text-(--admin-texto) sm:items-center">
+      <div className="flex w-full max-w-xl flex-col gap-4 rounded-2xl border border-(--admin-borde) bg-(--admin-superficie) p-6 shadow-sm">
         <div>
           <div className="mb-3 flex items-center gap-2">
-            <p className="text-xs font-semibold uppercase text-stone-500">
+            <p className="text-xs font-semibold uppercase text-(--admin-texto-secundario)">
               Paso {paso + 1} de {PASOS.length}
             </p>
             <div className="flex gap-1">
               {PASOS.map((_, indice) => (
                 <span
                   key={indice}
-                  className={`h-1.5 w-6 rounded-full ${indice <= paso ? "bg-stone-900" : "bg-stone-200"}`}
+                  className={`h-1.5 w-6 rounded-full ${indice <= paso ? "bg-(--admin-acento)" : "bg-(--admin-acento-suave)"}`}
                 />
               ))}
             </div>
           </div>
           <h1 className="text-xl font-bold">{PASOS[paso].titulo}</h1>
-          <p className="text-sm text-stone-600">{PASOS[paso].descripcion}</p>
+          <p className="text-sm text-(--admin-texto-secundario)">{PASOS[paso].descripcion}</p>
         </div>
 
         {paso === 0 && (
@@ -104,7 +104,7 @@ export function Onboarding({ slug, comercio }: { slug: string; comercio: Comerci
             type="button"
             onClick={() => setPaso(Math.max(0, paso - 1))}
             disabled={paso === 0 || guardando}
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-stone-600 disabled:opacity-40"
+            className="rounded-(--admin-radio-md) px-4 py-2 text-sm font-semibold text-(--admin-texto-secundario) disabled:opacity-40"
           >
             Atrás
           </button>
@@ -112,7 +112,7 @@ export function Onboarding({ slug, comercio }: { slug: string; comercio: Comerci
             type="button"
             onClick={() => void continuar()}
             disabled={guardando}
-            className="rounded-lg bg-stone-900 px-5 py-2.5 font-semibold text-white disabled:opacity-60"
+            className="rounded-(--admin-radio-md) bg-(--admin-acento) px-5 py-2.5 font-semibold text-(--admin-acento-texto) disabled:opacity-60"
           >
             {guardando ? "Guardando..." : esUltimo ? "Terminar" : "Continuar"}
           </button>

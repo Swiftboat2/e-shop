@@ -28,7 +28,7 @@ export function EditorUnidades({
     <div className="flex flex-col gap-2">
       {value.map((unidad, indice) => (
         <div key={unidad.valor} className="flex items-center gap-2">
-          <span className="w-24 rounded-lg bg-stone-100 px-3 py-2 text-sm font-mono">
+          <span className="w-24 rounded-(--admin-radio-md) bg-(--admin-acento-suave) px-3 py-2 text-sm font-mono">
             {unidad.valor}
           </span>
           <input
@@ -46,7 +46,7 @@ export function EditorUnidades({
             aria-label={`Quitar ${unidad.etiqueta}`}
             disabled={value.length === 1}
             onClick={() => onChange(value.filter((_, i) => i !== indice))}
-            className="rounded-lg border border-stone-300 px-3 py-2 font-bold disabled:opacity-40"
+            className="rounded-(--admin-radio-md) border border-(--admin-borde) px-3 py-2 font-bold disabled:opacity-40"
           >
             ×
           </button>
@@ -76,13 +76,13 @@ export function EditorUnidades({
         <button
           type="button"
           onClick={agregar}
-          className="rounded-lg border border-stone-300 px-4 font-semibold"
+          className="rounded-(--admin-radio-md) border border-(--admin-borde) px-4 font-semibold"
         >
           Agregar
         </button>
       </div>
 
-      <p className="text-xs text-stone-500">
+      <p className="text-xs text-(--admin-texto-secundario)">
         El valor &quot;unidad&quot; es la venta por unidad entera; cualquier otro (kg, litro,
         metro...) se vende fraccionado por esa medida.
       </p>

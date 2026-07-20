@@ -45,7 +45,7 @@ function Tarjeta({
   estado: ReturnType<typeof useGuardar>;
 }) {
   return (
-    <section className="flex flex-col gap-4 rounded-xl border border-stone-200 bg-white p-5">
+    <section className="flex flex-col gap-4 rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) p-5">
       <h2 className="text-lg font-bold">{titulo}</h2>
       {children}
       <div className="flex items-center gap-3">
@@ -53,7 +53,7 @@ function Tarjeta({
           type="button"
           onClick={onGuardar}
           disabled={estado.guardando}
-          className="w-fit rounded-lg bg-stone-900 px-5 py-2 text-sm font-semibold text-white disabled:opacity-60"
+          className="w-fit rounded-(--admin-radio-md) bg-(--admin-acento) px-5 py-2 text-sm font-semibold text-(--admin-acento-texto) disabled:opacity-60"
         >
           {estado.guardando ? "Guardando..." : "Guardar"}
         </button>

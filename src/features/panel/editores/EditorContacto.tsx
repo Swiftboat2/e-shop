@@ -63,14 +63,14 @@ export function EditorContacto({
           />
         </label>
       </div>
-      <p className="text-xs text-stone-500">
+      <p className="text-xs text-(--admin-texto-secundario)">
         En Google Maps: click derecho sobre tu local → el primer ítem copia las coordenadas.
       </p>
       {(value.mapLat !== 0 || value.mapLng !== 0) && (
         <iframe
           title="Vista previa de la ubicación"
           src={`https://maps.google.com/maps?q=${value.mapLat},${value.mapLng}&z=15&output=embed`}
-          className="h-44 w-full rounded-xl border border-stone-200"
+          className="h-44 w-full rounded-(--admin-radio-lg) border border-(--admin-borde)"
           loading="lazy"
         />
       )}

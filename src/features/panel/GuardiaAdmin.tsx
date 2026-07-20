@@ -32,16 +32,16 @@ export function GuardiaAdmin({ slug, children }: { slug: string; children: React
 
   if (estado === "ajeno") {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-stone-100 p-8 text-center text-stone-900">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-(--admin-bg) p-8 text-center text-(--admin-texto)">
         <h1 className="text-xl font-bold">Esta cuenta no administra esta tienda</h1>
-        <p className="max-w-md text-stone-600">
+        <p className="max-w-md text-(--admin-texto-secundario)">
           Tu usuario existe pero no tiene permisos sobre este comercio. Cerrá sesión e ingresá
           con la cuenta correcta.
         </p>
         <button
           type="button"
           onClick={() => signOut(auth)}
-          className="rounded-lg bg-stone-900 px-5 py-2.5 font-semibold text-white"
+          className="rounded-(--admin-radio-md) bg-(--admin-acento) px-5 py-2.5 font-semibold text-(--admin-acento-texto)"
         >
           Cerrar sesión
         </button>
@@ -50,8 +50,8 @@ export function GuardiaAdmin({ slug, children }: { slug: string; children: React
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-stone-100 text-stone-900">
-      <p className="animate-pulse text-stone-500">Verificando acceso...</p>
+    <main className="flex min-h-screen items-center justify-center bg-(--admin-bg) text-(--admin-texto)">
+      <p className="animate-pulse text-(--admin-texto-secundario)">Verificando acceso...</p>
     </main>
   );
 }
