@@ -4,6 +4,8 @@ export interface Tema {
   colorFondo: string;
   colorTexto: string;
   fuente: string;
+  radio: "recto" | "suave" | "redondeado";
+  densidad: "compacta" | "confortable";
 }
 
 export interface Contenido {

@@ -3,6 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --admin-bg: #f8fafc;
+  --admin-superficie: #ffffff;
+  --admin-borde: #e2e8f0;
+  --admin-texto: #0f172a;
+  --admin-texto-secundario: #64748b;
+  --admin-acento: #6366f1;
+  --admin-acento-texto: #ffffff;
+  --admin-acento-suave: #eef2ff;
+  --admin-radio-sm: 6px;
+  --admin-radio-md: 10px;
+  --admin-radio-lg: 16px;
+  --admin-sombra-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --admin-sombra-md: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 @theme inline {
@@ -16,6 +30,17 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --admin-bg: #0b0f1a;
+    --admin-superficie: #131829;
+    --admin-borde: #232a3d;
+    --admin-texto: #e5e7eb;
+    --admin-texto-secundario: #94a3b8;
+    --admin-acento: #818cf8;
+    --admin-acento-texto: #0b0f1a;
+    --admin-acento-suave: rgba(129, 140, 248, 0.15);
+    --admin-sombra-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --admin-sombra-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
 }
 
