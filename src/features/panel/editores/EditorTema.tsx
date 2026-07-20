@@ -1,6 +1,11 @@
 "use client";
 
-import { FUENTES_DISPONIBLES, PALETAS } from "@/features/comercio/opciones";
+import {
+  DENSIDADES_DISPONIBLES,
+  FUENTES_DISPONIBLES,
+  PALETAS,
+  RADIOS_DISPONIBLES,
+} from "@/features/comercio/opciones";
 import type { Tema } from "@/core/types";
 
 export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: Tema) => void }) {
@@ -56,6 +61,56 @@ export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: 
                 className="sr-only"
               />
               {fuente.nombre} <span className="opacity-60">· {fuente.descripcion}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="mb-2 text-sm font-medium">Esquinas</p>
+        <div className="flex flex-wrap gap-2">
+          {RADIOS_DISPONIBLES.map((radio) => (
+            <label
+              key={radio.id}
+              className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${
+                value.radio === radio.id
+                  ? "border-stone-900 bg-stone-900 text-white"
+                  : "border-stone-300"
+              }`}
+            >
+              <input
+                type="radio"
+                name="radioTema"
+                checked={value.radio === radio.id}
+                onChange={() => onChange({ ...value, radio: radio.id })}
+                className="sr-only"
+              />
+              {radio.nombre}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="mb-2 text-sm font-medium">Densidad</p>
+        <div className="flex flex-wrap gap-2">
+          {DENSIDADES_DISPONIBLES.map((densidad) => (
+            <label
+              key={densidad.id}
+              className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${
+                value.densidad === densidad.id
+                  ? "border-stone-900 bg-stone-900 text-white"
+                  : "border-stone-300"
+              }`}
+            >
+              <input
+                type="radio"
+                name="densidadTema"
+                checked={value.densidad === densidad.id}
+                onChange={() => onChange({ ...value, densidad: densidad.id })}
+                className="sr-only"
+              />
+              {densidad.nombre}
             </label>
           ))}
         </div>
