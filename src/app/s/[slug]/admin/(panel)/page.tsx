@@ -17,9 +17,9 @@ export default async function InicioPanelPage({ params }: Props) {
       <h1 className="text-2xl font-bold">Hola, {comercio.nombre}</h1>
       <div className="grid gap-3 sm:grid-cols-2">
         <EstadoPublicacion slug={slug} activoInicial={comercio.activo} />
-        <div className="rounded-xl border border-stone-200 bg-white p-4">
-          <p className="text-sm text-stone-500">Pedidos</p>
-          <p className="mt-1 text-sm text-stone-600">
+        <div className="rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) p-4">
+          <p className="text-sm text-(--admin-texto-secundario)">Pedidos</p>
+          <p className="mt-1 text-sm text-(--admin-texto-secundario)">
             Los pedidos nuevos aparecen en la sección Pedidos apenas llegan.
           </p>
         </div>

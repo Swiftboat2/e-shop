@@ -19,7 +19,7 @@ export default async function LoginPage({ params }: Props) {
   if (!comercio) notFound();
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-stone-100 p-4 text-stone-900">
+    <main className="flex min-h-screen items-center justify-center bg-(--admin-bg) p-4 text-(--admin-texto)">
       <FormularioLogin slug={slug} nombreComercio={comercio.nombre} />
     </main>
   );
