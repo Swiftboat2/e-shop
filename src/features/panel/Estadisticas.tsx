@@ -38,7 +38,9 @@ export function Estadisticas({ slug, timezone }: { slug: string; timezone: strin
               type="button"
               onClick={() => setPeriodo(valor)}
               className={`rounded-full px-3 py-1 text-sm font-medium ${
-                periodo === valor ? "bg-stone-900 text-white" : "text-stone-600 hover:bg-stone-200"
+                periodo === valor
+                  ? "bg-(--admin-acento) text-(--admin-acento-texto)"
+                  : "text-(--admin-texto-secundario) hover:bg-(--admin-acento-suave)"
               }`}
             >
               {etiqueta}
@@ -48,13 +50,16 @@ export function Estadisticas({ slug, timezone }: { slug: string; timezone: strin
       </div>
 
       {cargando ? (
-        <p className="py-6 text-center text-stone-500">Cargando estadísticas...</p>
+        <p className="py-6 text-center text-(--admin-texto-secundario)">Cargando estadísticas...</p>
       ) : (
         <>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {tiles.map(({ etiqueta, valor }) => (
-              <div key={etiqueta} className="rounded-xl border border-stone-200 bg-white p-4">
-                <p className="text-sm text-stone-500">{etiqueta}</p>
+              <div
+                key={etiqueta}
+                className="rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) p-4 shadow-(--admin-sombra-sm)"
+              >
+                <p className="text-sm text-(--admin-texto-secundario)">{etiqueta}</p>
                 <p className="mt-1 text-2xl font-bold tabular-nums">{valor}</p>
               </div>
             ))}
@@ -67,7 +72,7 @@ export function Estadisticas({ slug, timezone }: { slug: string; timezone: strin
             <span className="rounded-full bg-emerald-100 px-3 py-1 font-medium text-emerald-800">
               Aceptados: {estadisticas.porEstado.aceptado}
             </span>
-            <span className="rounded-full bg-stone-200 px-3 py-1 font-medium text-stone-600">
+            <span className="rounded-full bg-(--admin-acento-suave) px-3 py-1 font-medium text-(--admin-texto-secundario)">
               Ignorados: {estadisticas.porEstado.ignorado}
             </span>
           </div>

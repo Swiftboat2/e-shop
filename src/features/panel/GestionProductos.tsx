@@ -46,7 +46,7 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
         <button
           type="button"
           onClick={() => setFormAbierto(true)}
-          className="rounded-lg bg-stone-900 px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-(--admin-radio-md) bg-(--admin-acento) px-4 py-2 text-sm font-semibold text-(--admin-acento-texto)"
         >
           Nuevo producto
         </button>
@@ -57,13 +57,13 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre"
-          className="flex-1 rounded-lg border border-stone-300 bg-white px-3 py-2"
+          className="flex-1 rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) px-3 py-2"
         />
         <select
           value={filtroCategoria}
           onChange={(e) => setFiltroCategoria(e.target.value)}
           aria-label="Filtrar por categoría"
-          className="rounded-lg border border-stone-300 bg-white px-3 py-2"
+          className="rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) px-3 py-2"
         >
           <option value="todas">Todas las categorías</option>
           {categorias.map((categoria) => (
@@ -75,17 +75,17 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
       </div>
 
       {cargando ? (
-        <p className="py-8 text-center text-stone-500">Cargando catálogo...</p>
+        <p className="py-8 text-center text-(--admin-texto-secundario)">Cargando catálogo...</p>
       ) : filtrados.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-stone-300 bg-white px-4 py-8 text-center text-stone-500">
+        <p className="rounded-(--admin-radio-lg) border border-dashed border-(--admin-borde) bg-(--admin-superficie) px-4 py-8 text-center text-(--admin-texto-secundario)">
           {productos.length === 0
             ? "Todavía no cargaste productos. Creá el primero con el botón de arriba."
             : "Ningún producto coincide con la búsqueda."}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+        <div className="overflow-x-auto rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) shadow-(--admin-sombra-sm)">
           <table className="w-full min-w-125 text-left text-sm">
-            <thead className="border-b border-stone-200 text-xs uppercase text-stone-500">
+            <thead className="border-b border-(--admin-borde) text-xs uppercase text-(--admin-texto-secundario)">
               <tr>
                 <th className="px-4 py-3">Nombre</th>
                 <th className="px-4 py-3">Categoría</th>
@@ -96,15 +96,18 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
             </thead>
             <tbody>
               {filtrados.map((producto) => (
-                <tr key={producto.id} className="border-b border-stone-100 last:border-0">
+                <tr
+                  key={producto.id}
+                  className="border-b border-(--admin-borde) last:border-0 hover:bg-(--admin-acento-suave)"
+                >
                   <td className="px-4 py-3 font-medium">{producto.nombre}</td>
-                  <td className="px-4 py-3 text-stone-600">
+                  <td className="px-4 py-3 text-(--admin-texto-secundario)">
                     {nombreCategoria.get(producto.categoriaId) ?? "—"}
                   </td>
                   <td className="px-4 py-3">
                     ${formatearPrecio(producto.precio)}
                     {producto.tipoVenta === "fraccionado" && producto.unidadMedida && (
-                      <span className="text-stone-500"> /{producto.unidadMedida}</span>
+                      <span className="text-(--admin-texto-secundario)"> /{producto.unidadMedida}</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -112,7 +115,7 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
                       className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                         producto.disponible
                           ? "bg-emerald-100 text-emerald-800"
-                          : "bg-stone-100 text-stone-500"
+                          : "bg-(--admin-acento-suave) text-(--admin-texto-secundario)"
                       }`}
                     >
                       {producto.disponible ? "Disponible" : "Oculto"}
@@ -148,7 +151,7 @@ export function GestionProductos({ slug, unidadesDeVenta }: Props) {
                             setEditando(producto);
                             setFormAbierto(true);
                           }}
-                          className="font-medium text-stone-600 hover:text-stone-900"
+                          className="font-medium text-(--admin-texto-secundario) hover:text-(--admin-texto)"
                         >
                           Editar
                         </button>

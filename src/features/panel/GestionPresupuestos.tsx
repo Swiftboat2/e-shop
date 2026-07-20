@@ -60,44 +60,47 @@ export function GestionPresupuestos({
       <div className="flex items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">Presupuestos</h1>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-(--admin-texto-secundario)">
             Cotizaciones no vinculantes — no son comprobantes fiscales.
           </p>
         </div>
         <button
           type="button"
           onClick={() => setFormAbierto(true)}
-          className="rounded-lg bg-stone-900 px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-(--admin-radio-md) bg-(--admin-acento) px-4 py-2 text-sm font-semibold text-(--admin-acento-texto)"
         >
           Nuevo presupuesto
         </button>
       </div>
 
       {cargando ? (
-        <p className="py-8 text-center text-stone-500">Cargando presupuestos...</p>
+        <p className="py-8 text-center text-(--admin-texto-secundario)">Cargando presupuestos...</p>
       ) : presupuestos.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-stone-300 bg-white px-4 py-8 text-center text-stone-500">
+        <p className="rounded-(--admin-radio-lg) border border-dashed border-(--admin-borde) bg-(--admin-superficie) px-4 py-8 text-center text-(--admin-texto-secundario)">
           Todavía no generaste presupuestos. Creá el primero con el botón de arriba.
         </p>
       ) : (
         <ul className="flex flex-col gap-3">
           {presupuestos.map((presupuesto) => (
-            <li key={presupuesto.id} className="rounded-xl border border-stone-200 bg-white p-4">
+            <li
+              key={presupuesto.id}
+              className="rounded-(--admin-radio-lg) border border-(--admin-borde) bg-(--admin-superficie) p-4 shadow-(--admin-sombra-sm)"
+            >
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-bold">{formatearNumeroPresupuesto(presupuesto.numero)}</p>
-                <p className="text-sm text-stone-500">
+                <p className="text-sm text-(--admin-texto-secundario)">
                   {formatearFechaCorta(presupuesto.createdAt)}
                 </p>
-                <p className="text-sm text-stone-600">{presupuesto.datosCliente.nombre}</p>
+                <p className="text-sm text-(--admin-texto-secundario)">{presupuesto.datosCliente.nombre}</p>
                 {presupuesto.validezDias && (
-                  <p className="text-xs text-stone-400">
+                  <p className="text-xs text-(--admin-texto-secundario)">
                     Válido {presupuesto.validezDias} días
                   </p>
                 )}
                 <p className="ml-auto font-bold">${formatearPrecio(presupuesto.total)}</p>
               </div>
 
-              <ul className="mt-2 text-sm text-stone-700">
+              <ul className="mt-2 text-sm text-(--admin-texto)">
                 {presupuesto.items.map((item, indice) => (
                   <li key={indice}>
                     {formatearPrecio(item.cantidad)}
@@ -118,7 +121,7 @@ export function GestionPresupuestos({
                     )
                   }
                   aria-label={`Estado del presupuesto ${formatearNumeroPresupuesto(presupuesto.numero)}`}
-                  className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-sm"
+                  className="rounded-(--admin-radio-md) border border-(--admin-borde) bg-(--admin-superficie) px-3 py-1.5 text-sm"
                 >
                   {ESTADOS.map(({ valor, etiqueta }) => (
                     <option key={valor} value={valor}>
@@ -130,7 +133,7 @@ export function GestionPresupuestos({
                   type="button"
                   disabled={exportando === presupuesto.id}
                   onClick={() => void exportar(presupuesto)}
-                  className="rounded-lg border border-stone-300 px-4 py-1.5 text-sm font-semibold text-stone-600 disabled:opacity-60"
+                  className="rounded-(--admin-radio-md) border border-(--admin-borde) px-4 py-1.5 text-sm font-semibold text-(--admin-texto-secundario) disabled:opacity-60"
                 >
                   {exportando === presupuesto.id ? "Generando..." : "Descargar PDF"}
                 </button>
