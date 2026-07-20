@@ -7,21 +7,23 @@ export function TarjetaProducto({ producto }: { producto: Producto }) {
   const esFraccionado = producto.tipoVenta === "fraccionado";
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-black/10 bg-white/60 shadow-sm">
-      {producto.imagenUrl ? (
-        <Image
-          src={producto.imagenUrl}
-          alt={producto.nombre}
-          width={400}
-          height={400}
-          unoptimized
-          className="aspect-square w-full object-cover"
-        />
-      ) : (
-        <div className="flex aspect-square items-center justify-center bg-gradient-to-br from-(--color-primario)/15 to-(--color-secundario)/15 text-4xl font-bold text-(--color-primario)">
-          {producto.nombre.charAt(0)}
-        </div>
-      )}
+    <article className="group flex flex-col overflow-hidden rounded-(--tema-radio) border border-black/10 bg-white/60 shadow-sm transition-shadow hover:shadow-md">
+      <div className="overflow-hidden">
+        {producto.imagenUrl ? (
+          <Image
+            src={producto.imagenUrl}
+            alt={producto.nombre}
+            width={400}
+            height={400}
+            unoptimized
+            className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex aspect-square items-center justify-center bg-gradient-to-br from-(--color-primario)/15 to-(--color-secundario)/15 text-4xl font-bold text-(--color-primario)">
+            {producto.nombre.charAt(0)}
+          </div>
+        )}
+      </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <h3 className="text-sm font-semibold leading-tight">{producto.nombre}</h3>
         {producto.descripcion && (
