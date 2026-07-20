@@ -22,7 +22,7 @@ export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: 
                 type="button"
                 onClick={() => onChange({ ...value, ...paleta.colores })}
                 className={`flex items-center gap-2 rounded-xl border-2 p-3 text-left text-sm font-medium ${
-                  activa ? "border-stone-900" : "border-stone-200"
+                  activa ? "border-(--admin-acento)" : "border-(--admin-borde)"
                 }`}
                 style={{ backgroundColor: paleta.colores.colorFondo, color: paleta.colores.colorTexto }}
               >
@@ -49,8 +49,8 @@ export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: 
               key={fuente.id}
               className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${
                 value.fuente === fuente.id
-                  ? "border-stone-900 bg-stone-900 text-white"
-                  : "border-stone-300"
+                  ? "border-(--admin-acento) bg-(--admin-acento) text-(--admin-acento-texto)"
+                  : "border-(--admin-borde)"
               }`}
             >
               <input
@@ -74,8 +74,8 @@ export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: 
               key={radio.id}
               className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${
                 value.radio === radio.id
-                  ? "border-stone-900 bg-stone-900 text-white"
-                  : "border-stone-300"
+                  ? "border-(--admin-acento) bg-(--admin-acento) text-(--admin-acento-texto)"
+                  : "border-(--admin-borde)"
               }`}
             >
               <input
@@ -99,8 +99,8 @@ export function EditorTema({ value, onChange }: { value: Tema; onChange: (tema: 
               key={densidad.id}
               className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${
                 value.densidad === densidad.id
-                  ? "border-stone-900 bg-stone-900 text-white"
-                  : "border-stone-300"
+                  ? "border-(--admin-acento) bg-(--admin-acento) text-(--admin-acento-texto)"
+                  : "border-(--admin-borde)"
               }`}
             >
               <input
