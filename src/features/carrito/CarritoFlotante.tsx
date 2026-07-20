@@ -16,7 +16,7 @@ export function CarritoFlotante() {
       <button
         type="button"
         onClick={abrir}
-        className="flex w-full items-center justify-between rounded-2xl bg-(--color-primario) px-5 py-3.5 font-semibold text-white shadow-lg"
+        className="flex w-full items-center justify-between rounded-(--tema-radio) bg-(--color-primario) px-5 py-3.5 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
       >
         <span>Ver carrito · {etiqueta}</span>
         <span>${formatearPrecio(resumen.total)}</span>

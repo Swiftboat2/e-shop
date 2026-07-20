@@ -70,7 +70,7 @@ export function SheetCarrito() {
         role="dialog"
         aria-modal="true"
         aria-label="Tu pedido"
-        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-(--color-fondo) text-(--color-texto) shadow-2xl"
+        className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-(--tema-radio) bg-(--color-fondo) text-(--color-texto) shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
           <h2 className="text-lg font-bold">Tu pedido</h2>
@@ -215,7 +215,7 @@ export function SheetCarrito() {
                 <button
                   type="submit"
                   disabled={enviando}
-                  className="mt-1 rounded-xl bg-(--color-primario) px-5 py-3.5 font-bold text-white disabled:opacity-60"
+                  className="mt-1 rounded-(--tema-radio) bg-(--color-primario) px-5 py-3.5 font-bold text-white transition-transform active:scale-95 disabled:opacity-60"
                 >
                   {enviando ? "Enviando..." : "Enviar pedido por WhatsApp"}
                 </button>
